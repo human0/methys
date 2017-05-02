@@ -6,6 +6,7 @@ use App\Vehicle;
 use App\Manufacturer;
 use App\Type;
 use App\User;
+use App\UserDetail;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
@@ -28,7 +29,9 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        //
+        $owners = UserDetail::all()->pluck('number','id');
+        $manufacturers = Manufacturer::all();
+        return view('create_vehicle',['owners'=>$owners, 'manufacturers'=>$manufacturers]);
     }
 
     /**
@@ -39,7 +42,17 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'user_detail_id' => 'required|integer|exists:user_details,id', 
+            'type_id' => 'required|integer|exists:types,id', 
+            'year' => 'required|integer|min:4',
+            'color' => 'required|string|min:4|max:7',
+            'mileage' => 'required|integer',
+        ]);
+    
+        $vehicle = Vehicle::create($request->except('_token'));
+        
+        return redirect('vehicle/' . $vehicle);
     }
 
     /**
@@ -61,7 +74,9 @@ class VehicleController extends Controller
      */
     public function edit(vehicle $vehicle)
     {
-        //
+        $owners = UserDetail::all()->pluck('number','id');
+        $manufacturers = Manufacturer::all();
+        return view('edit_vehicle',['owners'=>$owners, 'manufacturers'=>$manufacturers, 'vehicle'=>$vehicle]);
     }
 
     /**

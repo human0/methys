@@ -11,11 +11,12 @@
 |
 */
 
-
-
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('/', 'HomeController@index');
+	Route::get('/', 'VehicleController@index');
 	Route::resource('vehicle', 'VehicleController');
+	Route::resource('userdetail', 'userdetailController');
+	Route::resource('type', 'typeController');
+	Route::resource('manufacturer', 'manufacturerController');
 });

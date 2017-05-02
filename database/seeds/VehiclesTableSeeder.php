@@ -14,16 +14,13 @@ class VehiclesTableSeeder extends Seeder
     {
     	for($i = 0; $i<10; ++$i)
     	{
-	        for($j = 0; $j<5; ++$j)
-    		{
-    			DB::table('vehicles')->insert([
-	    			'user_id' => rand(1,5),
+  			DB::table('vehicles')->insert([
+	    			'user_detail_id' => 1,
             		'type_id' => rand(1,15),
-            		'year' => rand(1,10),
-           			'color' => str_random(10),
+            		'year' => rand(1970,2017),
+           			'color' => '#'.rand(100, 999),
             		'mileage' => rand(1,10),
 	        	]);
-    		}
 	    }
     }
 }

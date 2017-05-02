@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container">
-    <h2 class="text-center"> Welcome {{Auth::user()->name}} {{Auth::user()->lastname}} </h2>
+    <h2 class="text-center"> Welcome {{Auth::user()->user_detail->firstname}} {{Auth::user()->user_detail->lastname}}  </h2>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
         @if (isset($vehicles))
             <div class="panel panel-default">
                 <div class="panel-heading">                 
-                    <a href="#" class="btn btn-primary" style="float: right;" role="button">Add <span class="glyphicon glyphicon-plus"></span></a>
+                    <a href="{{URL('vehicle/create')}}" class="btn btn-primary" style="float: right;" role="button">Add <span class="glyphicon glyphicon-plus"></span></a>
                     <h4 class="text-center"> Vehicles </h4>
                 </div>
                 <div class="panel-body">
@@ -20,9 +20,9 @@
                             <h3></h3>
                             <dl>
                                 <dt>First name</dt>
-                                <dd> {{ $vehicle->user->name }}</dd>
+                                <dd> {{ $vehicle->user_detail->firstname }}</dd>
                                 <dt> Last name</dt>
-                                <dd> {{$vehicle->user->lastname}}</dd>
+                                <dd> {{$vehicle->user_detail->lastname}}</dd>
                             </dl>
                             <dl>
                                 <dt>Manufacturer</dt>

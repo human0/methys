@@ -27,8 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function Vehicles()
+    public function user_detail()
     {
-        return $this->hasMany('App\Vehicle');
+        return $this->belongsTo('App\UserDetail');
     }
 }
