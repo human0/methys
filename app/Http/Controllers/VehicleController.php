@@ -11,22 +11,12 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $vehicles = Vehicle::paginate(8);
         return view('home', ['vehicles'=>$vehicles]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $owners = UserDetail::all()->pluck('number','id');
@@ -34,13 +24,7 @@ class VehicleController extends Controller
         return view('create_vehicle',['owners'=>$owners, 'manufacturers'=>$manufacturers]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, vehicle $vehicle = null)
     {
         $this->validate($request, [
             'user_detail_id' => 'required|integer|exists:user_details,id', 
@@ -49,29 +33,19 @@ class VehicleController extends Controller
             'color' => 'required|string|min:4|max:7',
             'mileage' => 'required|integer',
         ]);
-    
-        $vehicle = Vehicle::create($request->except('_token'));
         
-        return redirect('vehicle/' . $vehicle);
+        $vehicle = isset($vehicle) ? 
+            $vehicle::update($request->except('_token')) :
+            $vehicle = Vehicle::create($request->except('_token'));
+        
+        return redirect('vehicle/' . $vehicle->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\vehicle  $vehicle
-     * @return \Illuminate\Http\Response
-     */
     public function show(vehicle $vehicle)
     {
-        //
+        return view('show_vehicle', ['vehicle'=>$vehicle]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\vehicle  $vehicle
-     * @return \Illuminate\Http\Response
-     */
     public function edit(vehicle $vehicle)
     {
         $owners = UserDetail::all()->pluck('number','id');
@@ -79,26 +53,16 @@ class VehicleController extends Controller
         return view('edit_vehicle',['owners'=>$owners, 'manufacturers'=>$manufacturers, 'vehicle'=>$vehicle]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\vehicle  $vehicle
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, vehicle $vehicle)
     {
-        //
+        return $this->store($request, $vehicle);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\vehicle  $vehicle
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(vehicle $vehicle)
     {
-        //
+        if (!empty($vehicle)){
+            $vehicle->delete();
+        }
+        return redirect('vehicle'); 
     }
 }

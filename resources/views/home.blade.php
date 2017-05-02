@@ -31,9 +31,12 @@
                                 <dd>{{$vehicle->type->name}}</dd>
                             </dl>
                             <p>
-                                <a href="#" class="btn btn-primary" role="button">View <span class="glyphicon glyphicon-eye-open"></span></a> 
-                                <a href="#" class="btn btn-default" role="button">Edit <span class="glyphicon glyphicon-wrench"></span></a>
-                                <a href="#" class="btn btn-danger" role="button"> <span class="glyphicon glyphicon-remove"></span></a>
+                                {!! Form::open(['url' => "vehicle/{$vehicle->id}" , 'method' => 'DELETE', 'class' => 'form-inline']) !!}
+                                <a href='{{URL("vehicle/{$vehicle->id}")}}' class="btn btn-primary" role="button">View <span class="glyphicon glyphicon-eye-open"></span></a> 
+                                <a href='{{URL("vehicle/{$vehicle->id}/edit")}}' class="btn btn-default" role="button">Edit <span class="glyphicon glyphicon-wrench"></span></a>
+                                
+                                <button type="submit" class="btn btn-danger"> <span class="glyphicon glyphicon-remove"></span></button>
+                                {!! Form::close() !!}
                             </p>
                           </div>
                         </div>

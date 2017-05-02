@@ -16,7 +16,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/', 'VehicleController@index');
 	Route::resource('vehicle', 'VehicleController');
-	Route::resource('userdetail', 'userdetailController');
-	Route::resource('type', 'typeController');
-	Route::resource('manufacturer', 'manufacturerController');
+	Route::resource('userdetail', 'userdetailController', ['only' => ['index', 'store']]);
+	Route::resource('type', 'typeController', ['only' => ['index', 'store']]);
+	Route::resource('manufacturer', 'manufacturerController', ['only' => ['index', 'show']]);
 });
