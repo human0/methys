@@ -34,11 +34,14 @@ class VehicleController extends Controller
             'mileage' => 'required|integer',
         ]);
         
-        $vehicle = isset($vehicle) ? 
-            $vehicle::update($request->except('_token')) :
+        if (empty($vehicle)){ 
             $vehicle = Vehicle::create($request->except('_token'));
-        
-        return redirect('vehicle/' . $vehicle->id);
+        }
+        else {
+            $vehicle->update($request->except('_token')) ;
+        }
+
+        return view('show_vehicle',['vehicle'=>$vehicle]);
     }
 
     public function show(vehicle $vehicle)
