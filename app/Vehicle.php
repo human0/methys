@@ -15,11 +15,11 @@ class vehicle extends Model
 
     public function manufacturer()
     {
-        return $this->belongsTo('App\manufacturer');
+        return $this->belongsTo('App\Manufacturer');
     }
 
     public function type()
     {
-        return $this->belongsTo('App\type');
+        return $this->belongsTo('App\Type');
     }
 }
